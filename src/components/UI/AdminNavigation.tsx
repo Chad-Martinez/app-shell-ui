@@ -1,15 +1,15 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
-import classes from './MainNavigation.module.css';
+import classes from './AdminNavigation.module.css';
 
-const MainNavigation: FC = (): ReactElement => {
+const AdminNavigation: FC = (): ReactElement => {
   return (
     <header className={classes.header}>
       <nav>
         <ul className={classes.list}>
           <li>
             <NavLink
-              to='/'
+              to='/admin'
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
@@ -20,23 +20,26 @@ const MainNavigation: FC = (): ReactElement => {
           </li>
           <li>
             <NavLink
-              to='/login'
+              to='admin-route-1'
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
             >
-              Login
+              Admin 1
             </NavLink>
           </li>
           <li>
             <NavLink
-              to='/register'
+              to='admin-route-2'
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
             >
-              Register
+              Admin 2
             </NavLink>
+          </li>
+          <li>
+            <button>Logout</button>
           </li>
         </ul>
       </nav>
@@ -44,4 +47,4 @@ const MainNavigation: FC = (): ReactElement => {
   );
 };
 
-export default MainNavigation;
+export default AdminNavigation;
