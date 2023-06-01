@@ -4,7 +4,10 @@ type UseLocalStorage = (keyName: string, defaultValue: User | null) => any;
 
 type SetValue = (newValue: User) => void;
 
-export const useLocalStorage: UseLocalStorage = (keyName, defaultValue) => {
+export const useLocalStorage: UseLocalStorage = (
+  keyName: string,
+  defaultValue: User
+) => {
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const value = window.localStorage.getItem(keyName);

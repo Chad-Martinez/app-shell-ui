@@ -1,8 +1,14 @@
 import { FC, ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './UserNavigation.module.css';
+import { useAuth } from '../../hooks/useAuth';
 
 const UserNavigation: FC = (): ReactElement => {
+  const { logout } = useAuth();
+
+  const logoutHandler = (): void => {
+    logout();
+  };
   return (
     <header className={classes.header}>
       <nav>
@@ -39,7 +45,7 @@ const UserNavigation: FC = (): ReactElement => {
             </NavLink>
           </li>
           <li>
-            <button>Logout</button>
+            <button onClick={logoutHandler}>Logout</button>
           </li>
         </ul>
       </nav>

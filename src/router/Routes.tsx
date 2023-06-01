@@ -1,19 +1,34 @@
-import { createBrowserRouter } from 'react-router-dom';
-import RootLayout from '../layouts/RootLayout';
-import HomePage from '../pages/HomePage';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import AdminLayout from '../layouts/AdminLayout';
-import AdminHome from '../pages/AdminHome';
-import Admin1 from '../pages/Admin1';
-import Admin2 from '../pages/Admin2';
-import UserLayout from '../layouts/UserLayout';
-import UserHome from '../pages/UserHome';
-import User1 from '../pages/User1';
-import User2 from '../pages/User2';
+import { Suspense, lazy } from 'react';
+import { createBrowserRouter, defer } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
 import NotFound404 from '../pages/NotFound404';
 import { UserRoles } from '../types/enums';
+
+const RootLayout = lazy(() => import('../layouts/RootLayout'));
+const HomePage = lazy(() => import('../pages/HomePage'));
+const Login = lazy(() => import('../pages/Login'));
+const Register = lazy(() => import('../pages/Register'));
+const AdminLayout = lazy(() => import('../layouts/AdminLayout'));
+const AdminHome = lazy(() => import('../pages/AdminHome'));
+const Admin1 = lazy(() => import('../pages/Admin1'));
+const Admin2 = lazy(() => import('../pages/Admin2'));
+const UserLayout = lazy(() => import('../layouts/UserLayout'));
+const UserHome = lazy(() => import('../pages/UserHome'));
+const User1 = lazy(() => import('../pages/User1'));
+const User2 = lazy(() => import('../pages/User2'));
+const AuthWrapper = lazy(() => import('../layouts/AuthWrapper'));
+
+async function stall(stallTime = 3000) {
+  await new Promise((resolve) => setTimeout(resolve, stallTime));
+}
+
+const getUserData = async () => {
+  await stall(1000);
+  const storedData = window.localStorage.getItem('user');
+  if (!storedData) return defer({ user: null });
+  const user: User = JSON.parse(storedData);
+  return defer({ user });
+};
 
 const rootRoutes = {
   path: '/',
@@ -100,7 +115,14 @@ const userRoutes = {
 };
 
 export const router = createBrowserRouter([
-  rootRoutes,
-  adminRoutes,
-  userRoutes,
+  {
+    element: (
+      <Suspense>
+        <AuthWrapper />
+      </Suspense>
+    ),
+    errorElement: <NotFound404 />,
+    loader: getUserData,
+    children: [rootRoutes, adminRoutes, userRoutes],
+  },
 ]);
