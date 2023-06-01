@@ -1,46 +1,20 @@
-// import React from 'react';
-// import { Route, Redirect } from 'react-router-dom';
+import { FC, PropsWithChildren, ReactElement } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { UserRoles } from '../types/enums';
 
-// const ProtectedRoute = React.memo(
-//   ({
-//     component: Component,
-//     authenticated,
-//     userRole,
-//     sortedRoutes,
-//     ...rest
-//   }) => {
-//     const filteredRoutes = sortedRoutes.filter((route) => {
-//       if (authenticated && userRole === 'admin') {
-//         return true;
-//       } else if (authenticated && route.roles.includes(userRole)) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     });
+type ProtectedProps = {
+  children: ReactElement;
+  role: UserRoles;
+};
 
-//     console.log('FILTER ROUTES ', filteredRoutes);
-
-//     return (
-//       <Route
-//         {...rest}
-//         render={(props) =>
-//           authenticated ? (
-//             <Component {...props} sortedRoutes={filteredRoutes} />
-//           ) : (
-//             <Redirect
-//               to={{
-//                 pathname: '/',
-//                 state: { from: props.location },
-//               }}
-//             />
-//           )
-//         }
-//       />
-//     );
-//   }
-// );
-
-// export default ProtectedRoute;
-
-export {};
+export const ProtectedRoute: FC<PropsWithChildren<ProtectedProps>> = ({
+  children,
+  role,
+}) => {
+  const { user } = useAuth();
+  if (user.userRole !== role) {
+    return <Navigate to='/' />;
+  }
+  return children;
+};

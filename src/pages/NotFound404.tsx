@@ -1,10 +1,22 @@
 import React, { FC, Fragment, ReactElement } from 'react';
-import MainNavigation from '../components/UI/MainNavigation';
+import RootNavigation from '../components/UI/RootNavigation';
+import AdminNavigation from '../components/UI/AdminNavigation';
+import UserNavigation from '../components/UI/UserNavigation';
+import { useAuth } from '../hooks/useAuth';
+import { UserRoles } from '../types/enums';
 
 const NotFound404: FC = (): ReactElement => {
+  const { user } = useAuth();
+
   return (
     <Fragment>
-      <MainNavigation />
+      {user.userRole === UserRoles.Admin ? (
+        <AdminNavigation />
+      ) : user.userRole === UserRoles.User ? (
+        <UserNavigation />
+      ) : (
+        <RootNavigation />
+      )}
       <main>
         <h1>404: Page Not Found</h1>
       </main>
