@@ -22,16 +22,17 @@ const AuthContext = createContext<AuthContent>({
 
 type AuthProps = {
   children: ReactElement;
+  userData: User;
 };
 
-export const AuthProvider: FC<AuthProps> = ({ children }) => {
-  const [user, setUser] = useLocalStorage('user', null);
+export const AuthProvider: FC<AuthProps> = ({ children, userData }) => {
+  const [user, setUser] = useLocalStorage('user', userData);
   const navigate = useNavigate();
 
   const login = useCallback(
     async (data: User) => {
       setUser(data);
-      navigate('/profile');
+      navigate(`/${data?.userRole.toLowerCase()}`);
     },
     [navigate, setUser]
   );
@@ -42,7 +43,7 @@ export const AuthProvider: FC<AuthProps> = ({ children }) => {
   }, [navigate, setUser]);
 
   const value = useMemo(
-    () => ({
+    (): AuthContent => ({
       user,
       login,
       logout,

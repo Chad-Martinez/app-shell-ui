@@ -8,9 +8,8 @@ import classes from './RootLayout.module.css';
 const RootLayout: FC = (): ReactElement => {
   const { user } = useAuth();
 
-  if (user && user.userRole === UserRoles.Admin)
-    return <Navigate to='/admin' />;
-  if (user && user.userRole === UserRoles.User) return <Navigate to='/user' />;
+  if (user?.userRole === UserRoles.Admin) return <Navigate to='/admin' />;
+  if (user?.userRole === UserRoles.User) return <Navigate to='/user' />;
 
   return (
     <Fragment>
