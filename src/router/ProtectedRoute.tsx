@@ -13,7 +13,7 @@ export const ProtectedRoute: FC<PropsWithChildren<ProtectedProps>> = ({
   role,
 }) => {
   const { user } = useAuth();
-  if (user.userRole !== role) {
+  if (user?.userRole !== role) {
     return <Navigate to='/' />;
   }
   return children;

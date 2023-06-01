@@ -8,7 +8,6 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from './useLocalStorage';
-import { UserRoles } from '../types/enums';
 
 type AuthContent = {
   user: User;
@@ -16,10 +15,7 @@ type AuthContent = {
   logout: () => void;
 };
 const AuthContext = createContext<AuthContent>({
-  user: {
-    username: '',
-    userRole: UserRoles.Admin,
-  },
+  user: null,
   login: async (data: User) => {},
   logout: () => {},
 });
