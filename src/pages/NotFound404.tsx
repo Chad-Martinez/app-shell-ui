@@ -10,9 +10,9 @@ const NotFound404: FC = (): ReactElement => {
 
   return (
     <Fragment>
-      {user.userRole === UserRoles.Admin ? (
+      {user?.userRole === UserRoles.Admin ? (
         <AdminNavigation />
-      ) : user.userRole === UserRoles.User ? (
+      ) : user?.userRole === UserRoles.User ? (
         <UserNavigation />
       ) : (
         <RootNavigation />

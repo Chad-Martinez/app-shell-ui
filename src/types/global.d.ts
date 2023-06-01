@@ -10,5 +10,5 @@ declare global {
   type User = {
     username: string;
     userRole: UserRoles;
-  };
+  } | null;
 }
