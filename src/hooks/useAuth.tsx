@@ -8,15 +8,19 @@ import {
 } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from './useLocalStorage';
+import { UserRoles } from '../types/enums';
 
 type AuthContent = {
   user: User;
-  login: (data: User) => Promise<void>;
+  login: (
+    email: FormDataEntryValue,
+    password: FormDataEntryValue
+  ) => Promise<void>;
   logout: () => void;
 };
 const AuthContext = createContext<AuthContent>({
   user: null,
-  login: async (data: User) => {},
+  login: async (email: FormDataEntryValue, password: FormDataEntryValue) => {},
   logout: () => {},
 });
 
@@ -30,7 +34,9 @@ export const AuthProvider: FC<AuthProps> = ({ children, userData }) => {
   const navigate = useNavigate();
 
   const login = useCallback(
-    async (data: User) => {
+    async (email: FormDataEntryValue, password: FormDataEntryValue) => {
+      // --> Call to backend
+      const data: User = { username: 'username', userRole: UserRoles.Admin };
       setUser(data);
       navigate(`/${data?.userRole.toLowerCase()}`);
     },
