@@ -23,7 +23,6 @@ async function stall(stallTime = 3000) {
 }
 
 const getUserData = async () => {
-  await stall(1000);
   const storedData = window.localStorage.getItem('user');
   if (!storedData) return defer({ user: null });
   const user: User = JSON.parse(storedData);
