@@ -1,7 +1,7 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement } from 'react';
 
 const HomePage: FC = (): ReactElement => {
-  return <h1>HomePage</h1>;
+  return <h1>App Shell</h1>;
 };
 
 export default HomePage;
