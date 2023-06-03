@@ -1,4 +1,4 @@
-import { FC, FormEvent, ReactElement } from 'react';
+import { FC, FormEvent, ReactElement, useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import {
@@ -11,17 +11,46 @@ import {
   TextField,
 } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { validateEmailHelper } from '../utils/helpers';
 
 const Login: FC = (): ReactElement => {
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const { login } = useAuth();
+
+  const validateFormHandler = (
+    email: FormDataEntryValue | null,
+    password: FormDataEntryValue | null
+  ): boolean => {
+    const isEmailError: boolean = validateEmailHelper(email?.toString());
+    const isPasswordError: boolean = password?.toString() === '';
+
+    setEmailError(isEmailError);
+    setPasswordError(isPasswordError);
+
+    return !isEmailError && !isPasswordError;
+  };
+
+  const validateInputHandler = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { value, id } = event.target;
+    if (id === 'email' && emailError)
+      return setEmailError(validateEmailHelper(value));
+    if (id === 'password' && passwordError)
+      return setPasswordError(value === '');
+  };
 
   const loginHandler = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
+    const data: FormData = new FormData(e.currentTarget);
 
-    const email = data.get('email');
-    const password = data.get('password');
-    login(email!, password!);
+    const email: FormDataEntryValue | null = data.get('email');
+    const password: FormDataEntryValue | null = data.get('password');
+
+    const isValid: boolean = validateFormHandler(email, password);
+
+    if (isValid) login(email!, password!);
   };
 
   return (
@@ -88,6 +117,9 @@ const Login: FC = (): ReactElement => {
               label='Email'
               name='email'
               autoFocus
+              onChange={validateInputHandler}
+              error={emailError}
+              helperText={emailError && 'Please enter a valid email.'}
             />
             <TextField
               margin='normal'
@@ -96,7 +128,9 @@ const Login: FC = (): ReactElement => {
               id='password'
               label='Password'
               name='password'
-              autoFocus
+              onChange={validateInputHandler}
+              error={passwordError}
+              helperText={passwordError && 'Password required.'}
             />
             <Button
               variant='contained'
