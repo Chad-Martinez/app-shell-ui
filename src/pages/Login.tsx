@@ -1,6 +1,7 @@
-import { FC, FormEvent, ReactElement, useState, ChangeEvent } from 'react';
+import { FC, FormEvent, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import useInput from '../hooks/useInput';
 import {
   Card,
   Container,
@@ -14,43 +15,40 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { validateEmailHelper } from '../utils/helpers';
 
 const Login: FC = (): ReactElement => {
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
   const { login } = useAuth();
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailIsValid,
+    hasError: emailInputHasError,
+    valueChangeHandler: emailChangeHandler,
+    inputBlurHandler: emailBlurHandler,
+    reset: resetEmailInput,
+  } = useInput(validateEmailHelper);
 
-  const validateFormHandler = (
-    email: FormDataEntryValue | null,
-    password: FormDataEntryValue | null
-  ): boolean => {
-    const isEmailError: boolean = validateEmailHelper(email?.toString());
-    const isPasswordError: boolean = password?.toString() === '';
+  const {
+    value: enteredPassword,
+    isValid: enteredPasswordIsValid,
+    hasError: passwordInputHasError,
+    valueChangeHandler: passwordChangeHandler,
+    inputBlurHandler: passwordBlurHandler,
+    reset: resetPasswordInput,
+  } = useInput((value: string) => value.trim() !== '');
 
-    setEmailError(isEmailError);
-    setPasswordError(isPasswordError);
+  let formIsValid: boolean = false;
 
-    return !isEmailError && !isPasswordError;
-  };
-
-  const validateInputHandler = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    const { value, id } = event.target;
-    if (id === 'email' && emailError)
-      return setEmailError(validateEmailHelper(value));
-    if (id === 'password' && passwordError)
-      return setPasswordError(value === '');
-  };
+  if (enteredEmailIsValid && enteredPasswordIsValid) {
+    formIsValid = true;
+  }
 
   const loginHandler = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const data: FormData = new FormData(e.currentTarget);
 
-    const email: FormDataEntryValue | null = data.get('email');
-    const password: FormDataEntryValue | null = data.get('password');
+    if (!enteredEmailIsValid || !enteredPasswordIsValid) return;
 
-    const isValid: boolean = validateFormHandler(email, password);
+    login(enteredEmail, enteredPassword);
 
-    if (isValid) login(email!, password!);
+    resetEmailInput();
+    resetPasswordInput();
   };
 
   return (
@@ -116,10 +114,13 @@ const Login: FC = (): ReactElement => {
               id='email'
               label='Email'
               name='email'
+              type='email'
               autoFocus
-              onChange={validateInputHandler}
-              error={emailError}
-              helperText={emailError && 'Please enter a valid email.'}
+              value={enteredEmail}
+              onChange={emailChangeHandler}
+              onBlur={emailBlurHandler}
+              error={emailInputHasError}
+              helperText={emailInputHasError && 'Enter a valid email.'}
             />
             <TextField
               margin='normal'
@@ -128,13 +129,17 @@ const Login: FC = (): ReactElement => {
               id='password'
               label='Password'
               name='password'
-              onChange={validateInputHandler}
-              error={passwordError}
-              helperText={passwordError && 'Password required.'}
+              type='password'
+              value={enteredPassword}
+              onChange={passwordChangeHandler}
+              onBlur={passwordBlurHandler}
+              error={passwordInputHasError}
+              helperText={passwordInputHasError && 'Password required.'}
             />
             <Button
               variant='contained'
               type='submit'
+              disabled={!formIsValid}
               fullWidth
               sx={{ height: '45px', margin: '6px 0' }}
             >
