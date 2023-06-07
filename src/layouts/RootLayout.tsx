@@ -1,11 +1,11 @@
-import { FC, Fragment, ReactElement } from 'react';
+import { Fragment } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { UserRoles } from '../types/enums';
 import RootNavigation from '../components/UI/RootNavigation';
 import classes from './RootLayout.module.css';
 
-const RootLayout: FC = (): ReactElement => {
+const RootLayout = (): JSX.Element => {
   const { user } = useAuth();
 
   if (user?.userRole === UserRoles.Admin) return <Navigate to='/admin' />;

@@ -18,14 +18,10 @@ const User1 = lazy(() => import('../pages/User1'));
 const User2 = lazy(() => import('../pages/User2'));
 const AuthWrapper = lazy(() => import('../layouts/AuthWrapper'));
 
-async function stall(stallTime = 3000) {
-  await new Promise((resolve) => setTimeout(resolve, stallTime));
-}
-
 const getUserData = async () => {
-  const storedData = window.localStorage.getItem('user');
-  if (!storedData) return defer({ user: null });
-  const user: User = JSON.parse(storedData);
+  const storedUser = window.localStorage.getItem('user');
+  if (!storedUser) return defer({ user: null });
+  const user: User = JSON.parse(storedUser);
   return defer({ user });
 };
 

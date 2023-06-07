@@ -1,9 +1,8 @@
-import { FC, ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './UserNavigation.module.css';
 import { useAuth } from '../../hooks/useAuth';
 
-const UserNavigation: FC = (): ReactElement => {
+const UserNavigation = (): JSX.Element => {
   const { logout } = useAuth();
 
   const logoutHandler = (): void => {

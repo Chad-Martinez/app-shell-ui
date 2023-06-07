@@ -1,6 +1,4 @@
-import { FC, ReactElement } from 'react';
-
-const User2: FC = (): ReactElement => {
+const User2 = (): JSX.Element => {
   return <h1>User 2</h1>;
 };
 

@@ -1,10 +1,4 @@
-import {
-  ReactElement,
-  FormEvent,
-  useState,
-  ChangeEvent,
-  Fragment,
-} from 'react';
+import { FormEvent, useState, ChangeEvent, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import zxcvbn, { ZXCVBNResult } from 'zxcvbn';
 import {
@@ -21,7 +15,7 @@ import useInput from '../hooks/useInput';
 import PasswordStrengthMeter from '../components/UI/PasswordStrengthMeter';
 import { validateEmailHelper } from '../utils/helpers';
 
-const Register = (): ReactElement => {
+const Register = (): JSX.Element => {
   const [passwordScore, setPasswordScore] = useState<number>(0);
 
   const {

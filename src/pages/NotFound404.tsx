@@ -1,11 +1,11 @@
-import { FC, Fragment, ReactElement } from 'react';
+import { Fragment } from 'react';
 import RootNavigation from '../components/UI/RootNavigation';
 import AdminNavigation from '../components/UI/AdminNavigation';
 import UserNavigation from '../components/UI/UserNavigation';
 import { useAuth } from '../hooks/useAuth';
 import { UserRoles } from '../types/enums';
 
-const NotFound404: FC = (): ReactElement => {
+const NotFound404 = (): JSX.Element => {
   const { user } = useAuth();
 
   return (
