@@ -1,9 +1,5 @@
-import { FC, Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import classes from './PasswordStrengthMeter.module.css';
-
-type Props = {
-  score: number;
-};
 
 type Meter = {
   label: string;
@@ -11,7 +7,7 @@ type Meter = {
   class: string;
 };
 
-const PasswordStrengthMeter: FC<Props> = ({ score }) => {
+const PasswordStrengthMeter = ({ score }: { score: number }) => {
   const [meter, setMeter] = useState<Meter>({
     label: 'Weak (Invalid)',
     score: 1,
