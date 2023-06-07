@@ -1,8 +1,7 @@
-import { FC, ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './RootNavigation.module.css';
 
-const RootNavigation: FC = (): ReactElement => {
+const RootNavigation = (): JSX.Element => {
   return (
     <header className={classes.header}>
       <nav>

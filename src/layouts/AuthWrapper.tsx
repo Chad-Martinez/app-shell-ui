@@ -1,9 +1,8 @@
-import { FC, ReactElement } from 'react';
 import { Await, useLoaderData, Outlet } from 'react-router-dom';
 import { AuthProvider } from '../hooks/useAuth';
 import NotFound404 from '../pages/NotFound404';
 
-const AuthWrapper: FC = (): ReactElement => {
+const AuthWrapper = (): JSX.Element => {
   const user = useLoaderData();
 
   return (

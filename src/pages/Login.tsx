@@ -1,4 +1,4 @@
-import { FC, FormEvent, ReactElement } from 'react';
+import { FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import useInput from '../hooks/useInput';
@@ -14,7 +14,7 @@ import {
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { validateEmailHelper } from '../utils/helpers';
 
-const Login: FC = (): ReactElement => {
+const Login = (): JSX.Element => {
   const { login } = useAuth();
   const {
     value: enteredEmail,

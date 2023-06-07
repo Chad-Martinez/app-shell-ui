@@ -1,9 +1,8 @@
-import { FC, ReactElement } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './AdminNavigation.module.css';
 import { useAuth } from '../../hooks/useAuth';
 
-const AdminNavigation: FC = (): ReactElement => {
+const AdminNavigation = (): JSX.Element => {
   const { logout } = useAuth();
 
   const logoutHandler = (): void => {

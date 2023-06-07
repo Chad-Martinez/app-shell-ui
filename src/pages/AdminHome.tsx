@@ -1,6 +1,4 @@
-import React, { FC, ReactElement } from 'react';
-
-const AdminHome: FC = (): ReactElement => {
+const AdminHome = (): JSX.Element => {
   return <h1>Admin Home</h1>;
 };
 
