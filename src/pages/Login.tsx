@@ -95,11 +95,7 @@ const Login = (): JSX.Element => {
               }}
             />
           </Box>
-          <Typography
-            data-testid='login-title'
-            fontSize={35}
-            sx={{ width: '100%' }}
-          >
+          <Typography fontSize={35} sx={{ width: '100%' }}>
             Login
           </Typography>
           <Box
