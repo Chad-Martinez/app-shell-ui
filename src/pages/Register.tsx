@@ -198,12 +198,14 @@ const Register = (): JSX.Element => {
                 helperText={emailInputHasError && 'Enter Valid Email'}
               />
               <TextField
+                inputProps={{
+                  'data-testid': 'password',
+                }}
                 margin='dense'
                 required
                 fullWidth
                 type='password'
                 id='password'
-                data-testid='password'
                 label='Password'
                 name='password'
                 value={password}
@@ -219,12 +221,14 @@ const Register = (): JSX.Element => {
                 }
               />
               <TextField
+                inputProps={{
+                  'data-testid': 'password-confirm',
+                }}
                 margin='dense'
                 required
                 fullWidth
                 type='password'
                 id='passwordConfirm'
-                data-testid='password-confirm'
                 label='Confirm Password'
                 name='passwordConfirm'
                 value={passwordConfirm}
