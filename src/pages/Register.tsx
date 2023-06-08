@@ -1,4 +1,4 @@
-import { FormEvent, useState, ChangeEvent, Fragment } from 'react';
+import { useState, ChangeEvent, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import zxcvbn, { ZXCVBNResult } from 'zxcvbn';
 import {
@@ -83,11 +83,8 @@ const Register = (): JSX.Element => {
     resetPasswordConfirmInput();
   };
 
-  const registerHandler = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-
+  const registerHandler = (): void => {
     // API Logic
-
     resetForm();
   };
 
@@ -158,9 +155,6 @@ const Register = (): JSX.Element => {
               sx={{
                 marginTop: 1,
               }}
-              component='form'
-              onSubmit={registerHandler}
-              noValidate
             >
               <TextField
                 margin='dense'
@@ -209,6 +203,7 @@ const Register = (): JSX.Element => {
                 fullWidth
                 type='password'
                 id='password'
+                data-testid='password'
                 label='Password'
                 name='password'
                 value={password}
@@ -229,6 +224,7 @@ const Register = (): JSX.Element => {
                 fullWidth
                 type='password'
                 id='passwordConfirm'
+                data-testid='password-confirm'
                 label='Confirm Password'
                 name='passwordConfirm'
                 value={passwordConfirm}
@@ -243,10 +239,10 @@ const Register = (): JSX.Element => {
               />
               <Button
                 variant='contained'
-                type='submit'
                 fullWidth
                 disabled={!formIsValid}
                 sx={{ height: '45px', margin: '6px 0' }}
+                onClick={registerHandler}
               >
                 Register
               </Button>
