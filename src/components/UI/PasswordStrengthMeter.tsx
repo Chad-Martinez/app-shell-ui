@@ -3,13 +3,15 @@ import classes from './PasswordStrengthMeter.module.css';
 
 type Meter = {
   label: string;
+  validity: string;
   score: number;
   class: string;
 };
 
 const PasswordStrengthMeter = ({ score }: { score: number }) => {
   const [meter, setMeter] = useState<Meter>({
-    label: 'Weak (Invalid)',
+    label: 'Weak',
+    validity: '(Invalid)',
     score: 1,
     class: classes.weak,
   });
@@ -17,21 +19,33 @@ const PasswordStrengthMeter = ({ score }: { score: number }) => {
   const createPasswordLabel = (score: number) => {
     switch (score) {
       case 1:
-        setMeter({ label: 'Fair (Invalid)', score: 2, class: classes.fair });
+        setMeter({
+          label: 'Fair',
+          validity: '(Invalid)',
+          score: 2,
+          class: classes.fair,
+        });
         break;
       case 2:
-        setMeter({ label: 'Good (Invalid)', score: 3, class: classes.good });
+        setMeter({
+          label: 'Good',
+          validity: '(Invalid)',
+          score: 3,
+          class: classes.good,
+        });
         break;
       case 3:
         setMeter({
-          label: 'Strong (Valid)',
+          label: 'Strong',
+          validity: '(Valid)',
           score: 4,
           class: classes.strong,
         });
         break;
       case 4:
         setMeter({
-          label: 'Strongest (Valid)',
+          label: 'Strongest',
+          validity: '(Valid)',
           score: 5,
           class: classes.strongest,
         });
@@ -54,7 +68,8 @@ const PasswordStrengthMeter = ({ score }: { score: number }) => {
         {
           <>
             <strong>Password strength:</strong>{' '}
-            <span className={meter.class}>{meter.label}</span>
+            <strong className={meter.class}>{meter.label}</strong>{' '}
+            <strong className={meter.class}>{meter.validity}</strong>
           </>
         }
       </label>
