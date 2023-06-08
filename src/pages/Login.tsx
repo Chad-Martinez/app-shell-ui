@@ -40,9 +40,7 @@ const Login = (): JSX.Element => {
     formIsValid = true;
   }
 
-  const loginHandler = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
+  const loginHandler = (): void => {
     if (!enteredEmailIsValid || !enteredPasswordIsValid) return;
 
     login(enteredEmail, enteredPassword);
@@ -97,16 +95,17 @@ const Login = (): JSX.Element => {
               }}
             />
           </Box>
-          <Typography fontSize={35} sx={{ width: '100%' }}>
+          <Typography
+            data-testid='login-title'
+            fontSize={35}
+            sx={{ width: '100%' }}
+          >
             Login
           </Typography>
           <Box
             sx={{
               marginTop: 3,
             }}
-            component='form'
-            onSubmit={loginHandler}
-            noValidate
           >
             <TextField
               required
@@ -123,6 +122,9 @@ const Login = (): JSX.Element => {
               helperText={emailInputHasError && 'Enter a valid email.'}
             />
             <TextField
+              inputProps={{
+                'data-testid': 'password',
+              }}
               margin='normal'
               required
               fullWidth
@@ -138,7 +140,7 @@ const Login = (): JSX.Element => {
             />
             <Button
               variant='contained'
-              type='submit'
+              onClick={loginHandler}
               disabled={!formIsValid}
               fullWidth
               sx={{ height: '45px', margin: '6px 0' }}
