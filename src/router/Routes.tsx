@@ -18,13 +18,6 @@ const UserHome = lazy(() => import('../pages/UserHome'));
 const User1 = lazy(() => import('../pages/User1'));
 const User2 = lazy(() => import('../pages/User2'));
 
-// const getUserData = async () => {
-//   const storedUser = window.localStorage.getItem('user');
-//   if (!storedUser) return defer({ user: null });
-//   const user: User = JSON.parse(storedUser);
-//   return defer({ user });
-// };
-
 const rootRoutes = {
   path: '/',
   element: <RootLayout />,
@@ -119,7 +112,6 @@ export const router = createBrowserRouter([
       </Suspense>
     ),
     errorElement: <NotFound404 />,
-    // loader: getUserData,
     children: [rootRoutes, adminRoutes, userRoutes],
   },
 ]);
