@@ -1,12 +1,12 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import RootNavigation from '../components/UI/RootNavigation';
 import AdminNavigation from '../components/UI/AdminNavigation';
 import UserNavigation from '../components/UI/UserNavigation';
-import { useAuth } from '../hooks/useAuth';
 import { UserRoles } from '../types/enums';
+import { AuthContext } from '../store/auth-context';
 
 const NotFound404 = (): JSX.Element => {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
 
   return (
     <Fragment>

@@ -1,8 +1,9 @@
 import { Suspense, lazy } from 'react';
-import { createBrowserRouter, defer } from 'react-router-dom';
+import { Outlet, createBrowserRouter, defer } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
 import NotFound404 from '../pages/NotFound404';
 import { UserRoles } from '../types/enums';
+import { AuthProvider } from '../store/auth-context';
 
 const RootLayout = lazy(() => import('../layouts/RootLayout'));
 const HomePage = lazy(() => import('../pages/HomePage'));
@@ -16,7 +17,6 @@ const UserLayout = lazy(() => import('../layouts/UserLayout'));
 const UserHome = lazy(() => import('../pages/UserHome'));
 const User1 = lazy(() => import('../pages/User1'));
 const User2 = lazy(() => import('../pages/User2'));
-const AuthWrapper = lazy(() => import('../layouts/AuthWrapper'));
 
 const getUserData = async () => {
   const storedUser = window.localStorage.getItem('user');
@@ -113,7 +113,9 @@ export const router = createBrowserRouter([
   {
     element: (
       <Suspense>
-        <AuthWrapper />
+        <AuthProvider>
+          <Outlet />
+        </AuthProvider>
       </Suspense>
     ),
     errorElement: <NotFound404 />,

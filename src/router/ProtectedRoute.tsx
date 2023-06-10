@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 import { UserRoles } from '../types/enums';
+import { useContext } from 'react';
+import { AuthContext } from '../store/auth-context';
 
 type ProtectedProps = {
   children: JSX.Element;
@@ -8,7 +9,7 @@ type ProtectedProps = {
 };
 
 export const ProtectedRoute = ({ children, role }: ProtectedProps) => {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
   if (user?.userRole !== role) {
     return <Navigate to='/' />;
   }
