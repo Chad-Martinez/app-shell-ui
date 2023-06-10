@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
 import useInput from '../hooks/useInput';
 import {
   Card,
@@ -12,9 +11,11 @@ import {
 } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { validateEmailHelper } from '../utils/helpers';
+import { useContext } from 'react';
+import { AuthContext } from '../store/auth-context';
 
 const Login = (): JSX.Element => {
-  const { login } = useAuth();
+  const { login } = useContext(AuthContext);
   const {
     value: enteredEmail,
     isValid: enteredEmailIsValid,

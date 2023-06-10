@@ -1,12 +1,12 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { AuthContext } from '../store/auth-context';
 import { UserRoles } from '../types/enums';
 import UserNavigation from '../components/UI/UserNavigation';
 import classes from './UserLayout.module.css';
 
 const UserLayout = (): JSX.Element => {
-  const { user } = useAuth();
+  const { user } = useContext(AuthContext);
 
   if (user?.userRole !== UserRoles.User) {
     return <Navigate to='/' />;

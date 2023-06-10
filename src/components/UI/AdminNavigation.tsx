@@ -1,9 +1,10 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './AdminNavigation.module.css';
-import { useAuth } from '../../hooks/useAuth';
+import { AuthContext } from '../../store/auth-context';
 
 const AdminNavigation = (): JSX.Element => {
-  const { logout } = useAuth();
+  const { logout } = useContext(AuthContext);
 
   const logoutHandler = (): void => {
     logout();

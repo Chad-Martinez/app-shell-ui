@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import classes from './UserNavigation.module.css';
-import { useAuth } from '../../hooks/useAuth';
+import { useContext } from 'react';
+import { AuthContext } from '../../store/auth-context';
 
 const UserNavigation = (): JSX.Element => {
-  const { logout } = useAuth();
+  const { logout } = useContext(AuthContext);
 
   const logoutHandler = (): void => {
     logout();
