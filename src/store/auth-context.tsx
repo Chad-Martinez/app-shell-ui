@@ -5,7 +5,7 @@ import {
   useEffect,
   useMemo,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UserRoles } from '../types/enums';
 import { decodeToken } from 'react-jwt';
 
@@ -36,6 +36,7 @@ type Token = {
 export const AuthProvider = ({ children }: AuthProps) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const login = useCallback(
     async (email: string, password: string) => {
@@ -60,6 +61,10 @@ export const AuthProvider = ({ children }: AuthProps) => {
     setUser(null);
     navigate('/', { replace: true });
   }, [navigate, setUser]);
+
+  useEffect(() => {
+    if (pathname !== '/') sessionStorage.setItem('route', pathname);
+  }, [pathname]);
 
   useEffect(() => {
     const retrievedStorage = localStorage.getItem('user');
