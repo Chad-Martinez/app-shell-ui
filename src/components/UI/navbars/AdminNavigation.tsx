@@ -1,6 +1,6 @@
 import { useState, MouseEvent, SyntheticEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../store/auth-context';
+import { AuthContext } from '../../../store/auth-context';
 import {
   AppBar,
   Box,
@@ -13,12 +13,11 @@ import {
   MenuItem,
 } from '@mui/material';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
-
 import StyledLink from '../StyledLink';
 
-const settings = ['Profile', 'User1', 'User2', 'Logout'];
+const settings = ['Profile', 'Admin1', 'Admin2', 'Logout'];
 
-const UserNavigation = (): JSX.Element => {
+const AdminNavigation = (): JSX.Element => {
   const navigate = useNavigate();
   const user = useContext(AuthContext);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -109,4 +108,4 @@ const UserNavigation = (): JSX.Element => {
   );
 };
 
-export default UserNavigation;
+export default AdminNavigation;

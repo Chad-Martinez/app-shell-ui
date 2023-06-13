@@ -2,7 +2,7 @@ import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import StyledLink from '../StyledLink';
 
-const RootNavigation = () => {
+const RootNavigation = (): JSX.Element => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static'>
@@ -34,7 +34,6 @@ const RootNavigation = () => {
                   fontFamily: 'monospace',
                   fontWeight: 700,
                   letterSpacing: { md: '.3rem' },
-                  // color: 'inherit',
                   textDecoration: 'none',
                 }}
               >

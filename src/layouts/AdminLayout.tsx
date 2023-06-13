@@ -2,7 +2,7 @@ import { Fragment, useContext } from 'react';
 import { AuthContext } from '../store/auth-context';
 import { Outlet, Navigate } from 'react-router-dom';
 import { UserRoles } from '../types/enums';
-import AdminNaviation from '../components/UI/AdminNavigation';
+import AdminNaviation from '../components/UI/navbars/AdminNavigation';
 import classes from './AdminLayout.module.css';
 
 const AdminLayout = (): JSX.Element => {

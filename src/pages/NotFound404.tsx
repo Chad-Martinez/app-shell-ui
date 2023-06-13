@@ -1,7 +1,7 @@
 import { Fragment, useContext } from 'react';
-import RootNavigation from '../components/UI/RootNavigation';
-import AdminNavigation from '../components/UI/AdminNavigation';
-import UserNavigation from '../components/UI/UserNavigation';
+import RootNavigation from '../components/UI/navbars/RootNavigation';
+import AdminNavigation from '../components/UI/navbars/AdminNavigation';
+import UserNavigation from '../components/UI/navbars/UserNavigation';
 import { UserRoles } from '../types/enums';
 import { AuthContext } from '../store/auth-context';
 

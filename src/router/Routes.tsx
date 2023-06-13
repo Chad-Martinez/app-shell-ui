@@ -21,7 +21,6 @@ const User2 = lazy(() => import('../pages/User2'));
 const rootRoutes = {
   path: '/',
   element: <RootLayout />,
-  errorElement: <NotFound404 />,
   children: [
     {
       index: true,
@@ -41,7 +40,6 @@ const rootRoutes = {
 const adminRoutes = {
   path: '/admin',
   element: <AdminLayout />,
-  errorElement: <NotFound404 />,
   children: [
     {
       index: true,
@@ -73,7 +71,6 @@ const adminRoutes = {
 const userRoutes = {
   path: '/user',
   element: <UserLayout />,
-  errorElement: <NotFound404 />,
   children: [
     {
       index: true,
@@ -111,7 +108,11 @@ export const router = createBrowserRouter([
         </AuthProvider>
       </Suspense>
     ),
-    errorElement: <NotFound404 />,
+    errorElement: (
+      <AuthProvider>
+        <NotFound404 />
+      </AuthProvider>
+    ),
     children: [rootRoutes, adminRoutes, userRoutes],
   },
 ]);
