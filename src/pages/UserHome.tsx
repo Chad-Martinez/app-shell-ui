@@ -1,5 +1,11 @@
+import { Typography } from '@mui/material';
+
 const UserHome = (): JSX.Element => {
-  return <h1>User Home</h1>;
+  return (
+    <Typography variant='h4' color='#524d4d' gutterBottom>
+      User Home
+    </Typography>
+  );
 };
 
 export default UserHome;

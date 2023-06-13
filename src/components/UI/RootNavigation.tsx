@@ -1,45 +1,58 @@
-import { NavLink } from 'react-router-dom';
-import classes from './RootNavigation.module.css';
+import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
+import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
+import StyledLink from '../StyledLink';
 
-const RootNavigation = (): JSX.Element => {
+const RootNavigation = () => {
   return (
-    <header className={classes.header}>
-      <nav>
-        <ul className={classes.list}>
-          <li>
-            <NavLink
-              to='/'
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-              end
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position='static'>
+        <Toolbar
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <StyledLink to='/'>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to='/login'
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              Login
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to='/register'
-              className={({ isActive }) =>
-                isActive ? classes.active : undefined
-              }
-            >
-              Register
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
-    </header>
+              <LocalPoliceIcon
+                sx={{
+                  mr: { xs: 1, md: 2 },
+                  fontSize: '30px',
+                }}
+              />
+
+              <Typography
+                variant='h6'
+                noWrap
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: { md: '.3rem' },
+                  // color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                AuthShell
+              </Typography>
+            </Box>
+          </StyledLink>
+          <Box>
+            <StyledLink to='/login'>
+              <Button color='inherit'>Login</Button>
+            </StyledLink>
+            <StyledLink to='/register'>
+              <Button color='inherit'>Register</Button>
+            </StyledLink>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
 

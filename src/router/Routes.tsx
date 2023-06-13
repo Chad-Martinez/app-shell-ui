@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { Outlet, createBrowserRouter, defer } from 'react-router-dom';
+import { Outlet, createBrowserRouter } from 'react-router-dom';
 import { ProtectedRoute } from './ProtectedRoute';
 import NotFound404 from '../pages/NotFound404';
 import { UserRoles } from '../types/enums';
@@ -52,7 +52,7 @@ const adminRoutes = {
       ),
     },
     {
-      path: 'admin-route-1',
+      path: 'admin1',
       element: (
         <ProtectedRoute role={UserRoles.Admin}>
           <Admin1 />
@@ -60,7 +60,7 @@ const adminRoutes = {
       ),
     },
     {
-      path: 'admin-route-2',
+      path: 'admin2',
       element: (
         <ProtectedRoute role={UserRoles.Admin}>
           <Admin2 />
@@ -84,7 +84,7 @@ const userRoutes = {
       ),
     },
     {
-      path: 'user-route-1',
+      path: 'user1',
       element: (
         <ProtectedRoute role={UserRoles.User}>
           <User1 />
@@ -92,7 +92,7 @@ const userRoutes = {
       ),
     },
     {
-      path: 'user-route-2',
+      path: 'user2',
       element: (
         <ProtectedRoute role={UserRoles.User}>
           <User2 />
