@@ -1,5 +1,11 @@
+import { Typography } from '@mui/material';
+
 const Admin2 = (): JSX.Element => {
-  return <h1>Admin 2</h1>;
+  return (
+    <Typography variant='h4' color='#524d4d' gutterBottom>
+      Admin 2
+    </Typography>
+  );
 };
 
 export default Admin2;
