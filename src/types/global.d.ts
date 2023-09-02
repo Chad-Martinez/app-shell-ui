@@ -7,7 +7,10 @@ declare global {
   }
 
   type User = {
-    username: string;
+    userId: string;
+    email: string;
+    firstName: string;
+    lastName: string;
     userRole: UserRoles;
   } | null;
 }

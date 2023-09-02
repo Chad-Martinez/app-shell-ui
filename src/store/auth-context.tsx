@@ -6,14 +6,17 @@ import {
   useMemo,
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { UserRoles } from '../types/enums';
-import { decodeToken } from 'react-jwt';
+import { Cookies } from 'react-cookie';
+import { toast } from 'react-toastify';
+import { loginUser } from '../services/auth-service';
+import { AxiosError } from 'axios';
 
 type AuthContent = {
   user: User;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 };
+
 export const AuthContext = createContext<AuthContent>({
   user: null,
   login: async () => {},
@@ -24,36 +27,39 @@ type AuthProps = {
   children: JSX.Element;
 };
 
-type Token = {
-  username: string;
-  aud: string;
-  role: UserRoles;
-  exp: number;
-  iat: string;
-  sub: string;
-};
-
 export const AuthProvider = ({ children }: AuthProps) => {
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const cookies = useMemo(() => new Cookies(), []);
 
   const login = useCallback(
     async (email: string, password: string) => {
-      // --> Call to backend
-      // Start mock data to set a generic user to be replaced by AuthContext login
-      const user: User = { username: 'username', userRole: UserRoles.Admin };
-      localStorage.setItem(
-        'user',
-        JSON.stringify(
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE2ODY0MTM4OTUsImV4cCI6MTcxNzk0OTg5NSwiYXVkIjoiIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsInVzZXJuYW1lIjoianJvY2tldEBleGFtcGxlLmNvbSIsInJvbGUiOiJBRE1JTiJ9.B7GsqxMqGNFtbKbNrWjHFRiOVRtWiT-Ei2ERu0Kg2Cs'
-        )
-      );
-      // End mock data
-      setUser(user);
-      navigate(`/${user?.userRole.toLowerCase()}`);
+      try {
+        const result = await loginUser({ email, password });
+        const accessToken = cookies.get('AT');
+        const refreshToken = cookies.get('RT');
+
+        const user: User = {
+          userId: result.data?.userId,
+          email: result.data?.email,
+          firstName: result.data?.firstName,
+          lastName: result.data?.lastName,
+          userRole: result.data?.role,
+        };
+
+        localStorage.setItem('AT', JSON.stringify(accessToken));
+        localStorage.setItem('RT', JSON.stringify(refreshToken));
+        toast.success(result.data.message, { toastId: 'login-success' });
+        setUser(user);
+        navigate(`/${user?.userRole.toLowerCase()}`);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.message, { toastId: 'login-error' });
+        }
+      }
     },
-    [navigate, setUser]
+    [navigate, setUser, cookies]
   );
 
   const logout = useCallback(() => {
@@ -65,22 +71,6 @@ export const AuthProvider = ({ children }: AuthProps) => {
   useEffect(() => {
     if (pathname !== '/') sessionStorage.setItem('route', pathname);
   }, [pathname]);
-
-  useEffect(() => {
-    const retrievedStorage = localStorage.getItem('user');
-    if (!retrievedStorage) return;
-
-    const refreshToken: Token | null = decodeToken(
-      JSON.parse(retrievedStorage!)
-    );
-
-    if (!refreshToken) return;
-    const decodedUser: User = {
-      username: refreshToken!.username,
-      userRole: refreshToken!.role,
-    };
-    setUser(decodedUser);
-  }, [setUser, logout, navigate]);
 
   const authStore = useMemo(
     (): AuthContent => ({
