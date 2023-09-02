@@ -63,10 +63,13 @@ export const AuthProvider = ({ children }: AuthProps) => {
   );
 
   const logout = useCallback(() => {
-    localStorage.removeItem('user');
+    cookies.remove('AT');
+    cookies.remove('RT');
+    localStorage.removeItem('AT');
+    localStorage.removeItem('RT');
     setUser(null);
     navigate('/', { replace: true });
-  }, [navigate, setUser]);
+  }, [navigate, setUser, cookies]);
 
   useEffect(() => {
     if (pathname !== '/') sessionStorage.setItem('route', pathname);
