@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, Fragment } from 'react';
+import { useState, ChangeEvent, Fragment, FC } from 'react';
 import { Link } from 'react-router-dom';
 import zxcvbn, { ZXCVBNResult } from 'zxcvbn';
 import {
@@ -13,9 +13,14 @@ import {
 import PersonPinIcon from '@mui/icons-material/PersonPin';
 import useInput from '../hooks/useInput';
 import PasswordStrengthMeter from '../components/UI/PasswordStrengthMeter';
-import { validateEmailHelper } from '../utils/helpers';
+import { validateEmailHelper, validatePhoneHelper } from '../utils/helpers';
+import MaskedInput from '../components/UI/MaskedInput';
+import { IRegister } from '../types/Register.interface';
+import { registerUser } from '../services/auth-service';
+import { toast } from 'react-toastify';
+import { AxiosError, AxiosResponse } from 'axios';
 
-const Register = (): JSX.Element => {
+const Register: FC = (): JSX.Element => {
   const [passwordScore, setPasswordScore] = useState<number>(0);
 
   const {
@@ -46,13 +51,24 @@ const Register = (): JSX.Element => {
   } = useInput(validateEmailHelper);
 
   const {
+    value: phone,
+    isValid: phoneIsValid,
+    hasError: phoneInputHasError,
+    valueChangeHandler: phonelChangeHandler,
+    inputBlurHandler: phonelBlurHandler,
+    reset: resetPhoneInput,
+  } = useInput((value) => {
+    return validatePhoneHelper(value);
+  });
+
+  const {
     value: password,
     isValid: passwordIsValid,
     hasError: passwordInputHasError,
     valueChangeHandler: onPasswordChange,
     inputBlurHandler: passwordBlurHandler,
     reset: resetPasswordInput,
-  } = useInput((value) => passwordScore >= 3);
+  } = useInput(() => passwordScore >= 3);
 
   const {
     value: passwordConfirm,
@@ -69,6 +85,7 @@ const Register = (): JSX.Element => {
     firstNameIsValid &&
     lastNameIsValid &&
     emailIsValid &&
+    phoneIsValid &&
     passwordIsValid &&
     passwordConfirmIsValid
   ) {
@@ -79,13 +96,31 @@ const Register = (): JSX.Element => {
     resetFirstNameInput();
     resetLastNameInput();
     resetEmailInput();
+    resetPhoneInput();
     resetPasswordInput();
     resetPasswordConfirmInput();
   };
 
-  const registerHandler = (): void => {
-    // API Logic
-    resetForm();
+  const registerHandler = async (): Promise<void> => {
+    const newUser: IRegister = {
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+    };
+    try {
+      const result: AxiosResponse = await registerUser(newUser);
+      toast.success(result.data.message, { toastId: 'register-success' });
+      resetForm();
+      console.log('RESULT ', result);
+    } catch (error) {
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data.message, {
+          toastId: 'register-error',
+        });
+      console.log('ERROR ', error);
+    }
   };
 
   const evaluatePassword = (value: string): void => {
@@ -196,6 +231,18 @@ const Register = (): JSX.Element => {
                 onBlur={emailBlurHandler}
                 error={emailInputHasError}
                 helperText={emailInputHasError && 'Enter Valid Email'}
+              />
+              <MaskedInput
+                mask='999-999-9999'
+                value={phone}
+                changeHandler={phonelChangeHandler}
+                blurHandler={phonelBlurHandler}
+                id='phone'
+                inputName='phone'
+                isRequired={false}
+                label='Phone'
+                inputHasError={phoneInputHasError}
+                errorMessage='Enter a valid 10 digit number'
               />
               <TextField
                 inputProps={{
