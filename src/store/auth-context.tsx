@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { loginUser } from '../services/auth-service';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
 type AuthContent = {
   user: User;
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
   const cookies = useMemo(() => new Cookies(), []);
 
   const login = useCallback(
-    async (email: string, password: string) => {
+    async (email: string, password: string): Promise<void> => {
       try {
         const result = await loginUser({ email, password });
         const accessToken = cookies.get('AT');
@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }: AuthProps) => {
         if (error instanceof AxiosError) {
           toast.error(error.response?.data.message, { toastId: 'login-error' });
         }
+        console.log(error);
       }
     },
     [navigate, setUser, cookies]
