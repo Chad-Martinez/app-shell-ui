@@ -27,3 +27,12 @@ export const loginUser = (payload: {
   };
   return axios(config);
 };
+
+export const verifyEmail = (verifyId: string): Promise<AxiosResponse> => {
+  const config = {
+    method: 'PUT',
+    url: `${API}/api/auth/verify/${verifyId}`,
+    headers: { 'Content-Type': 'application/json' },
+  };
+  return axios(config);
+};

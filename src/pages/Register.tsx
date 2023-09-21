@@ -113,7 +113,6 @@ const Register: FC = (): JSX.Element => {
       const result: AxiosResponse = await registerUser(newUser);
       toast.success(result.data.message, { toastId: 'register-success' });
       resetForm();
-      console.log('RESULT ', result);
     } catch (error) {
       if (error instanceof AxiosError)
         toast.error(error.response?.data.message, {

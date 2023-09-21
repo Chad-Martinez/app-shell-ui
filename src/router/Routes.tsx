@@ -4,6 +4,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import NotFound404 from '../pages/NotFound404';
 import { UserRoles } from '../types/enums';
 import { AuthProvider } from '../store/auth-context';
+import VerifyEmail from '../pages/VerifyEmail';
 
 const RootLayout = lazy(() => import('../layouts/RootLayout'));
 const HomePage = lazy(() => import('../pages/HomePage'));
@@ -33,6 +34,10 @@ const rootRoutes = {
     {
       path: '/register',
       element: <Register />,
+    },
+    {
+      path: '/verify/:verifyId',
+      element: <VerifyEmail />,
     },
   ],
 };

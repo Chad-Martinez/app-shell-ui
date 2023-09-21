@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Cookies } from 'react-cookie';
 import { toast } from 'react-toastify';
 import { loginUser } from '../services/auth-service';
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 
 type AuthContent = {
   user: User;
