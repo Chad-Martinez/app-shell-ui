@@ -11,6 +11,8 @@ declare global {
     email: string;
     firstName: string;
     lastName: string;
+    phone?: string;
+    isEmailVerified: boolean;
     userRole: UserRoles;
   } | null;
 }
