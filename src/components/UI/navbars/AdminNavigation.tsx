@@ -1,4 +1,11 @@
-import { useState, MouseEvent, SyntheticEvent, useContext } from 'react';
+import {
+  useState,
+  MouseEvent,
+  SyntheticEvent,
+  useContext,
+  FC,
+  ReactElement,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../store/auth-context';
 import {
@@ -15,19 +22,19 @@ import {
 import LocalPoliceIcon from '@mui/icons-material/LocalPolice';
 import StyledLink from '../StyledLink';
 
-const settings = ['Profile', 'Admin1', 'Admin2', 'Logout'];
+const settings: string[] = ['Profile', 'Admin1', 'Admin2', 'Logout'];
 
-const AdminNavigation = (): JSX.Element => {
+const AdminNavigation: FC = (): ReactElement | null => {
   const navigate = useNavigate();
   const user = useContext(AuthContext);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
+  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>): void => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = (event: SyntheticEvent<HTMLElement>) => {
-    const { id } = event.currentTarget;
+  const handleCloseUserMenu = (event: SyntheticEvent<HTMLElement>): void => {
+    const { id }: { id: string } = event.currentTarget;
     if (id === 'Logout') return user.logout();
     navigate(id.toLowerCase());
     setAnchorElUser(null);

@@ -1,11 +1,11 @@
 import { Typography } from '@mui/material';
-import { useCallback, useEffect } from 'react';
+import { FC, ReactElement, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { getAdminResource } from '../services/admin-service';
 import { AxiosError } from 'axios';
 
-const Admin1 = (): JSX.Element => {
-  const adminResource = useCallback(async () => {
+const Admin1: FC = (): ReactElement | null => {
+  const adminResource = useCallback(async (): Promise<void> => {
     try {
       await getAdminResource();
     } catch (error: unknown) {

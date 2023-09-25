@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { FC, Fragment, ReactElement, useEffect, useState } from 'react';
 import classes from './PasswordStrengthMeter.module.css';
 
 type Meter = {
@@ -8,7 +8,9 @@ type Meter = {
   class: string;
 };
 
-const PasswordStrengthMeter = ({ score }: { score: number }) => {
+const PasswordStrengthMeter: FC<{ score: number }> = ({
+  score,
+}): ReactElement | null => {
   const [meter, setMeter] = useState<Meter>({
     label: 'Weak',
     validity: '(Invalid)',
@@ -16,7 +18,7 @@ const PasswordStrengthMeter = ({ score }: { score: number }) => {
     class: classes.weak,
   });
 
-  const createPasswordLabel = (score: number) => {
+  const createPasswordLabel = (score: number): void => {
     switch (score) {
       case 1:
         setMeter({

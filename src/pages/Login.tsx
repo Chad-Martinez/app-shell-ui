@@ -11,10 +11,10 @@ import {
 } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { validateEmailHelper } from '../utils/helpers';
-import { useContext } from 'react';
+import { FC, ReactElement, useContext } from 'react';
 import { AuthContext } from '../store/auth-context';
 
-const Login = (): JSX.Element => {
+const Login: FC = (): ReactElement | null => {
   const { login } = useContext(AuthContext);
   const {
     value: enteredEmail,
