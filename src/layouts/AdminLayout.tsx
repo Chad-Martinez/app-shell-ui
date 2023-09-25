@@ -1,11 +1,11 @@
-import { Fragment, useContext } from 'react';
+import { FC, Fragment, ReactElement, useContext } from 'react';
 import { AuthContext } from '../store/auth-context';
 import { Outlet, Navigate } from 'react-router-dom';
 import { UserRoles } from '../types/enums';
 import AdminNaviation from '../components/UI/navbars/AdminNavigation';
 import classes from './AdminLayout.module.css';
 
-const AdminLayout = (): JSX.Element => {
+const AdminLayout: FC = (): ReactElement | null => {
   const { user } = useContext(AuthContext);
 
   if (user?.userRole !== UserRoles.Admin) {

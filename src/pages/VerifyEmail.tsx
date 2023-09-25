@@ -1,21 +1,21 @@
 import { Container, Box, LinearProgress } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { verifyEmail } from '../services/auth-service';
 import { toast } from 'react-toastify';
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 
-const VerifyEmail = () => {
+const VerifyEmail: FC = (): ReactElement | null => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isVerified, setIsVerified] = useState<boolean>(false);
 
-  const params = useParams();
+  const params = useParams<string>();
   const { verifyId } = params;
 
   const verify = useCallback(async (): Promise<void> => {
     try {
       if (verifyId) {
-        const response = await verifyEmail(verifyId);
+        const response: AxiosResponse<any, any> = await verifyEmail(verifyId);
         toast.success(response.data.message, { toastId: 'verify-success' });
         setIsVerified(true);
       }
@@ -29,7 +29,7 @@ const VerifyEmail = () => {
     }
   }, [verifyId]);
 
-  useEffect(() => {
+  useEffect((): void => {
     verify();
     setIsLoading(false);
   }, [verify]);

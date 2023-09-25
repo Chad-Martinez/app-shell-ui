@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, Fragment, FC } from 'react';
+import { useState, ChangeEvent, Fragment, FC, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import zxcvbn, { ZXCVBNResult } from 'zxcvbn';
 import {
@@ -20,7 +20,7 @@ import { registerUser } from '../services/auth-service';
 import { toast } from 'react-toastify';
 import { AxiosError, AxiosResponse } from 'axios';
 
-const Register: FC = (): JSX.Element => {
+const Register: FC = (): ReactElement | null => {
   const [passwordScore, setPasswordScore] = useState<number>(0);
 
   const {
