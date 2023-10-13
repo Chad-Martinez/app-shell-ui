@@ -6,8 +6,12 @@ import { toast } from 'react-toastify';
 import { AxiosError, AxiosResponse } from 'axios';
 
 const VerifyEmail: FC = (): ReactElement | null => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isVerified, setIsVerified] = useState<boolean>(false);
+  const [emailMessage, setEmailMessage] = useState<ReactElement>(
+    <Box>
+      <h3>Email verification in progress...</h3>
+      <LinearProgress />
+    </Box>
+  );
 
   const params = useParams<string>();
   const { verifyId } = params;
@@ -17,21 +21,27 @@ const VerifyEmail: FC = (): ReactElement | null => {
       if (verifyId) {
         const response: AxiosResponse<any, any> = await verifyEmail(verifyId);
         toast.success(response.data.message, { toastId: 'verify-success' });
-        setIsVerified(true);
+        setEmailMessage(
+          <h3>
+            Your email has been verified please <Link to='/login'>login</Link>{' '}
+            to continue
+          </h3>
+        );
       }
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message, {
           toastId: 'verify-error',
         });
-        setIsVerified(false);
+        setEmailMessage(
+          <h3>Your email could not be verified at this time.</h3>
+        );
       }
     }
   }, [verifyId]);
 
   useEffect((): void => {
     verify();
-    setIsLoading(false);
   }, [verify]);
 
   return (
@@ -44,19 +54,7 @@ const VerifyEmail: FC = (): ReactElement | null => {
           alignItems: 'center',
         }}
       >
-        {!isLoading && isVerified ? (
-          <h3>
-            Your email has been verified please <Link to='/login'>login</Link>{' '}
-            to continue
-          </h3>
-        ) : !isLoading && !isVerified ? (
-          <h3>Your email could not be verified at this time.</h3>
-        ) : (
-          <Box>
-            <h3>Email verification in progress...</h3>
-            <LinearProgress />
-          </Box>
-        )}
+        {emailMessage}
       </Box>
     </Container>
   );
