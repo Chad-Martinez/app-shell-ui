@@ -18,6 +18,7 @@ const UserLayout = lazy(() => import('../layouts/UserLayout'));
 const UserHome = lazy(() => import('../pages/UserHome'));
 const User1 = lazy(() => import('../pages/User1'));
 const User2 = lazy(() => import('../pages/User2'));
+const Profile = lazy(() => import('../pages/Profile'));
 
 const rootRoutes = {
   path: '/',
@@ -55,6 +56,14 @@ const adminRoutes = {
       ),
     },
     {
+      path: 'profile',
+      element: (
+        <ProtectedRoute role={UserRoles.Admin}>
+          <Profile />
+        </ProtectedRoute>
+      ),
+    },
+    {
       path: 'admin1',
       element: (
         <ProtectedRoute role={UserRoles.Admin}>
@@ -82,6 +91,14 @@ const userRoutes = {
       element: (
         <ProtectedRoute role={UserRoles.User}>
           <UserHome />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: 'profile',
+      element: (
+        <ProtectedRoute role={UserRoles.User}>
+          <Profile />
         </ProtectedRoute>
       ),
     },
